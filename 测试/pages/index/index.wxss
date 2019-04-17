@@ -1,0 +1,15 @@
+.canvas_tools .box_box6 {
+  height: 100rpx;
+  width: 100rpx;
+  border-radius: 50rpx;
+  margin-top: 25rpx;
+  margin-left: 25rpx;
+  background-color: #afa99c;
+}
+
+.canvas_tools .box_box6 image{
+  height: 60rpx;
+  width: 60rpx;
+  margin-top: 20rpx;
+  margin-left: 20rpx;
+}

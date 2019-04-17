@@ -1,0 +1,3 @@
+<view class="box_box6" bindtap="recoverCanvas">
+   <image src='/images/recover.png'></image>
+</view>

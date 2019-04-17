@@ -1,0 +1,179 @@
+<!--index.wxml-->
+<view class="body" style="{{open_que==1 || open_que==2 || open_commentes==1?'height:100vh;overflow:hidden':''}}">
+  <view class="top_video">
+    <video src='http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'></video>
+  </view>
+  <view class="top_sec">
+    <view class="sec_l">
+      <text>{{details.title}}</text>
+      <text>{{details.sec_title}}</text>
+      <view>
+        <text>{{details.date}}</text>
+        <text>·</text>
+        <text>浏览次数:{{details.count}}</text>
+      </view>
+    </view>
+    <view class="sec_r">
+      <view bindtap='show_com_modal' data-cms="1">
+        <image src="../../images/comments.png"></image>
+        <text>评论</text>
+      </view>
+      <view wx:if="{{details.isStar}}" bindtap='star_video'>
+        <image src="../../images/star_red.png" class="temp2"></image>
+        <text style='color:rgba(148,8,10,1);'>取消</text>
+      </view>
+      <view wx:if="{{!details.isStar}}" bindtap='star_video'>
+        <image src="../../images/star_red.png" class="temp2"></image>
+        <text>收藏</text>
+      </view>
+    </view>
+  </view>
+  <view class="study" bindtap='show_que'>
+    <text>已学习</text>
+    <text style="color:rgba(148,8,10,1);">{{details.study_num}}</text>
+    <text>人</text>
+  </view>
+  <view class="study" bindtap='show_com_modal' data-cms="2">
+    <text>考核触发按钮</text>
+  </view>
+  <view class="test">
+    <view class='test_title'>
+      <text>相关考核</text>
+    </view>
+    <navigator class="test_body" wx:for="{{test}}" wx:key="{{item}}" wx:for-index="idx" wx:for-item="item">
+      <text>{{item.title}}</text>
+      <view class='test_body_sec'>
+        <text>{{item.complete}}人已完成</text>
+        <text>|</text>
+        <text>截止日期 {{item.date}}</text>
+      </view>
+    </navigator>
+  </view>
+  <view class="middle"></view>
+  <view class="other">
+    <view data-idx="1" bindtap='handleTap'>
+      <text style="{{isOnClick == 1?'color:rgba(148,8,10,1);border-bottom:4rpx solid rgba(148,8,10,1);':''}}" class="{{isOnClick == 1?'active':''}}">评论</text>
+    </view>
+    <view data-idx="2" bindtap='handleTap'>
+      <text style="{{isOnClick == 2?'color:rgba(148,8,10,1);border-bottom:4rpx solid rgba(148,8,10,1);':''}}" class="{{isOnClick == 2?'active':''}}">推荐</text>
+    </view>
+  </view>
+  <view class="recom_parent" class="{{isOnClick==2?'show':'hide'}}">
+    <navigator class="recom" wx:for="{{recom}}" wx:key="{{item}}" wx:for-index="idx" wx:for-item="item" url="">
+      <view class="recom_l">
+        <image src='{{item.img_src}}'></image>
+        <image src='../../images/recom_img_bg.png'></image>
+        <text>{{item.time}}</text>
+      </view>
+      <view class='recom_r'>
+        <view>
+          <text>{{item.title}}</text>
+        </view>
+      </view>
+    </navigator>
+  </view>
+  <view class="comm_parent" class="{{isOnClick==1?'show':'hide'}}">
+    <view class="comm" wx:for="{{commentes}}" wx:key="{{item}}" wx:for-index="idx" wx:for-item="item">
+      <view class="comm_l">
+        <image src='{{item.img_src}}'></image>
+      </view>
+      <view class="comm_r">
+        <view class="comm_r_top">
+          <text class="uname">{{item.uname}}</text>
+          <!-- 点赞 -->
+          <view  bindtap="like_star" data-like="{{idx}}">
+            <image src="{{like_star?'../../images/click_red.png':'../../images/click.png'}}"></image>
+            <text wx:if="{{item.star!=0}}">{{item.star}}</text>
+          </view>
+        </view>
+        <view class="comm_r_btm">
+          <text>{{item.comm_detail}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="write" bindtap='show_com_modal' data-cms="1">
+      <text>写心得</text>
+    </view>
+  </view>
+  <!-- 问题弹窗 -->
+  <view class="cu-modal {{open_que==1?'show':''}}">
+    <view class="question">
+      <view class="que_head" style="background:rgba(148,8,10,1);">
+        <view>请</view>
+        <view>正确回答</view>
+        <view>以下题目后</view>
+        <view>继续观看</view>
+      </view>
+      <view class="que_title">习近平看望慰问北京冬奥组委工作人员和志愿者代表时表示习近平看望慰问北京冬奥组委工作人员和志愿者代表时表示习近平看望慰问北京冬奥组委工作人员和志愿者代表时表示</view>
+      <view class="que_sel" bindtap="sel_answer">
+        <view class="que_seltion" data-ans="1">
+          <view data-ans="1">A</view>
+          <view wx:if="{{sel_que_ans==1}}" class="checked"></view>
+          <view data-ans="1">十五届三中全会十五届三中全会十五届三中全会十五届三中全会十五届三中全会</view>
+        </view>
+        <view class="que_seltion" data-ans="2">
+          <view data-ans="2">B</view>
+          <view wx:if="{{sel_que_ans==2}}" class="checked"></view>
+          <view data-ans="2">十五届三中全会</view>
+        </view>
+        <view class="que_seltion" data-ans="3">
+          <view data-ans="3">C</view>
+          <view wx:if="{{sel_que_ans==3}}" class="checked"></view>
+          <view data-ans="3">十五届三中全会</view>
+        </view>
+        <view class="que_seltion" data-ans="4">
+          <view data-ans="4">D</view>
+          <view wx:if="{{sel_que_ans==4}}" class="checked"></view>
+          <view data-ans="4">十五届三中全会</view>
+        </view>
+      </view>
+      <view class="ans_err" style="color:rgba(148,8,10,1);">{{!ans_check?'回答错误，请继续回答！':''}}</view>
+      <view class="que_btn" style="{{sel_que_ans!=0?'background:rgba(148,8,10,1);':''}}" bindtap="submit_ans">确定</view>
+    </view>
+  </view>
+  <!-- 评论弹窗 -->
+  <view class="cu-modal {{open_commentes==1?'show':''}}" bindtap='show_com_modal'  data-cms="3">
+    <view class="commentes" maxlength="-1">
+      <view class="que_head" style="background:rgba(148,8,10,1);">
+        <view>请输入评论内容</view>
+      </view>
+      <textarea class="que_title" placeholder='请在此处输入您评论的内容' bindinput="get_uCom_val"></textarea>
+      <view class="que_btn" style="background:rgba(148,8,10,1);" data-cms="3">确定</view>
+    </view>
+  </view>
+  <!-- 考核弹窗 -->
+  <view class="cu-modal asse {{open_que==2?'show':''}}" bindtap='show_com_modal' data-cms="4">
+    <view class="assessment">
+      <view class="asse_head" style="background:rgba(148,8,10,1);">
+        <text>当前文章</text>
+        <text>{{assessment.length}}</text>
+        <text>篇考核</text>
+        <view data-cms="4">X</view>
+      </view>
+      <view class="asse_body" wx:for="{{assessment}}" wx:key="{{item}}">
+        <view class="ab_head">
+            <image src='../../images/comments.png'></image>
+          <view>
+            <view>{{item.title}}</view>
+            <view style="{{item.isAnswer?'background:rgba(235,235,235,1);color:rgba(153,153,153,1);':'background:rgba(148,8,10,1);'}}">前往答题</view>
+          </view>
+        </view>
+        <view class="ab_body">
+          <view class="ab_title">
+            <image src='../../images/comments.png'></image>
+            <text>需要学习的文章或视频</text>
+          </view>
+          <navigator class="body_cont" wx:for="{{item.needStudy}}" wx:for-item="piece" wx:key="{{piece}}">
+            <view class="cont_l">
+              <view wx:if="{{piece.type==0}}" style="color:rgba(148,8,10,1); border-color:rgba(148,8,10,1);">文章</view>
+              <view wx:if="{{piece.type==1}}" style="color:rgba(148,8,10,1); border-color:rgba(148,8,10,1);">视频</view>
+              <view>{{piece.title}}</view>
+            </view>
+            <image wx:if="{{piece.isStudy}}" src='../../images/accept_red.png'></image>
+            <image wx:if="{{!piece.isStudy}}" src='../../images/error_red.png'></image>
+          </navigator>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
